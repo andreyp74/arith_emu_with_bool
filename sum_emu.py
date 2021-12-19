@@ -21,6 +21,9 @@ def xor_op(a, b):
 def and_op(a, b):
     return int(bool(a) and bool(b))
 
+def or_op(a, b):
+    return int(bool(a) or bool(b))
+
 """
 Sum operation emulated with boolean bitwise operations.
  
@@ -31,11 +34,11 @@ zi - ith bit of the result
 Total number of the result's bits: N = max(xbits_numer, ybits_numer) + 1
 
 z0 = x0 XOR y0, rest0 = x0 AND y0
-z1 = (x1 XOR y1) XOR rest0, rest1 = x1 AND y1
-z2 = (x2 XOR y2) XOR rest1, rest2 = x2 AND y2
-z3 = (x3 XOR y3) XOR rest2, rest3 = x3 AND y3
+z1 = (x1 XOR y1) XOR rest0, rest1 = (x1 AND y1) OR ((x1 XOR y1) AND rest0)
+z2 = (x2 XOR y2) XOR rest1, rest2 = (x2 AND y2) OR ((x2 XOR y2) AND rest1)
+z3 = (x3 XOR y3) XOR rest2, rest3 = (x3 AND y3) OR ((x3 XOR y3) AND rest2)
 ...
-zN-1 = (xN-1 XOR yN-1) XOR restN-2, restN-1 = xN-1 AND yN-1
+zN-1 = (xN-1 XOR yN-1) XOR restN-2, restN-1 = (xN-1 AND yN-1) OR ((xN-1 XOR yN-1) AND restN-2)
 The major bit is:
 zN = restN-1
 """
@@ -51,8 +54,15 @@ def sum(x, y):
         xi = xbits[i] if xbits_numer > i else 0
         yi = ybits[i] if ybits_numer > i else 0
         
-        zi = xor_op(xor_op(xi, yi), rest)
-        rest = and_op(xi, yi)
+        if i == 0:
+            zi = xor_op(xi, yi)
+            rest = and_op(xi, yi)
+            #print("xi=", xi, "yi", yi, "rest=", rest, "zi", zi)
+        else:
+            t = xor_op(xi, yi)
+            zi = xor_op(t, rest)
+            rest = or_op(and_op(xi, yi), and_op(t, rest))
+            #print("xi=", xi, "yi", yi, "t=", t, "rest=", rest, "zi", zi)
         
         bits_res.append(zi)
     
