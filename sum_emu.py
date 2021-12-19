@@ -24,11 +24,11 @@ def and_op(a, b):
 """
 Sum operation emulated with boolean bitwise operations.
  
-xi - ith 1st argument's bit
-yi - ith 2nd argument's bit
-zi - ith result's bit
+xi - ith bit of the first argument
+yi - ith bit of the second argument
+zi - ith bit of the result
 
-Total number of result bits: N = max(xbits_numer, ybits_numer) + 1
+Total number of the result's bits: N = max(xbits_numer, ybits_numer) + 1
 
 z0 = x0 XOR y0, rest0 = x0 AND y0
 z1 = (x1 XOR y1) XOR rest0, rest1 = x1 AND y1
