@@ -54,15 +54,10 @@ def sum(x, y):
         xi = xbits[i] if xbits_numer > i else 0
         yi = ybits[i] if ybits_numer > i else 0
         
-        if i == 0:
-            zi = xor_op(xi, yi)
-            rest = and_op(xi, yi)
-            #print("xi=", xi, "yi", yi, "rest=", rest, "zi", zi)
-        else:
-            t = xor_op(xi, yi)
-            zi = xor_op(t, rest)
-            rest = or_op(and_op(xi, yi), and_op(t, rest))
-            #print("xi=", xi, "yi", yi, "t=", t, "rest=", rest, "zi", zi)
+        t = xor_op(xi, yi)
+        zi = xor_op(t, rest)
+        rest = or_op(and_op(xi, yi), and_op(t, rest))
+        #print("xi=", xi, "yi", yi, "t=", t, "rest=", rest, "zi", zi)
         
         bits_res.append(zi)
     
