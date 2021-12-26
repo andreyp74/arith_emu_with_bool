@@ -1,4 +1,4 @@
-# Some arithmetic operations emulated with boolean "bitwise" operations
+# Some arithmetic operations emulated with bitwise logic gates
 Usage example:
 ```
 >python sum_emu.py 2 4 --op sum
