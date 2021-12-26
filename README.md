@@ -24,4 +24,24 @@ The major bit is:
 zN = restN-1
 ```
 ## Prod operation
+```
+xi - ith bit of the first argument
+yi - ith bit of the second argument
+
+N = xbits_numer
+M = ybits_numer
+i = 0 .. M
+j = 0 .. N
+
+pi - i-th intermediate part
+pi =
+i    <------------------------------- j --------------------------------->
+p0 = {AND(y0, x0), AND(y0, x1), AND(y0, x2), AND(y0, x3), ..., AND(y0, xN)}
+p1 = {0,           AND(y1, x0), AND(y1, x1), AND(y0, x2), ..., AND(y1, xN)}
+p2 = {0,           0,           AND(y2, x0), AND(y0, x1), ..., AND(y2, xN)}
+...
+pM = {0,           0,           0,           AND(yM, x0), AND(yM, x1),... AND(yM, xN)}
+      <-------------- M zeros ------------->
+result = sum(p0, p1, p2, ..., pM)
+```
 
