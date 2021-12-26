@@ -1,4 +1,4 @@
-# Sum operation emulated with boolean bitwise operations
+# Sum operation emulated with boolean "bitwise" operations
 ``` 
 xi - ith bit of the first argument
 yi - ith bit of the second argument

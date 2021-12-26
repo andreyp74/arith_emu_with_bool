@@ -25,7 +25,7 @@ def or_op(a, b):
     return int(bool(a) or bool(b))
 
 """
-Sum operation emulated with boolean bitwise operations.
+Sum operation emulated with boolean "bitwise" operations.
  
 xi - ith bit of the first argument
 yi - ith bit of the second argument
@@ -45,10 +45,13 @@ zN = restN-1
 def sum(x, y):
     xbits = num_as_binary_list(x)
     ybits = num_as_binary_list(y)
+    return binary_list_as_num(sum_impl(xbits, ybits))
+
+def sum_impl(xbits, ybits):
     xbits_numer = len(xbits)
     ybits_numer = len(ybits)
     bit_len = max(xbits_numer, ybits_numer)
-    bits_res = []
+    zbits = []
     rest = 0
     for i in range(bit_len):
         xi = xbits[i] if xbits_numer > i else 0
@@ -59,23 +62,59 @@ def sum(x, y):
         rest = or_op(and_op(xi, yi), and_op(t, rest))
         #print("xi=", xi, "yi", yi, "t=", t, "rest=", rest, "zi", zi)
         
-        bits_res.append(zi)
+        zbits.append(zi)
     
     if rest != 0:    
-        bits_res.append(rest)
+        zbits.append(rest)
 
-    return binary_list_as_num(bits_res)
+    return zbits
 
+"""
+Product operation emulated with boolean "bitwise" operations.
+"""
+
+def prod(x, y):
+    xbits = num_as_binary_list(x)
+    ybits = num_as_binary_list(y)
+    xbits_numer = len(xbits)
+    ybits_numer = len(ybits)
+    zbits = []
+    for i in range(ybits_numer):
+        pi = [0] * i
+        for j in range(xbits_numer):
+            yi = ybits[i]
+            xj = xbits[j]
+            tmp = and_op(yi, xj)
+            pi.append(tmp)
+            
+        zbits = sum_impl(zbits, pi)    
+        
+    return binary_list_as_num(zbits)
+
+"""
+Example:
+    >python sum_emu.py 2 4 --op sum
+    2 + 4 = 6
+    >python sum_emu.py 12 43 --op prod
+    12 * 43 = 516
+"""
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('arguments', type=int, nargs='+')
+    parser.add_argument('--op')
     args = parser.parse_args()
     
     if not args.arguments:
         raise("positive integer arguments are not defined")
+    if not args.op:
+        raise("operation is not defined")
     
-    print("{0} + {1} = {2}".format(
-        args.arguments[0], args.arguments[1], sum(args.arguments[0], args.arguments[1])))
+    x = args.arguments[0]
+    y = args.arguments[1]
+    if args.op == 'sum':
+        print("{0} + {1} = {2}".format(x, y, sum(x, y)))
+    elif args.op == 'prod':
+        print("{0} * {1} = {2}".format(x, y, prod(x, y)))
 
 if __name__ == "__main__":
     main()
