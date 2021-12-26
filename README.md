@@ -1,4 +1,12 @@
-# Sum operation emulated with boolean "bitwise" operations
+# Some arithmetic operations emulated with boolean "bitwise" operations
+Usage example:
+```
+>python sum_emu.py 2 4 --op sum
+2 + 4 = 6
+>python sum_emu.py 12 43 --op prod
+12 * 43 = 516
+```
+## Sum operation
 ``` 
 xi - ith bit of the first argument
 yi - ith bit of the second argument
@@ -15,3 +23,5 @@ zN-1 = (xN-1 XOR yN-1) XOR restN-2, restN-1 = (xN-1 AND yN-1) OR ((xN-1 XOR yN-1
 The major bit is:
 zN = restN-1
 ```
+## Prod operation
+
